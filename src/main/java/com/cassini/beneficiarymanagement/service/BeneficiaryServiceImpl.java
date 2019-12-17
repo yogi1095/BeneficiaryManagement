@@ -6,6 +6,8 @@ import java.util.Optional;
 
 import javax.security.auth.login.AccountNotFoundException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -27,6 +29,12 @@ import com.cassini.beneficiarymanagement.repository.CustomerRepository;
 
 @Service
 public class BeneficiaryServiceImpl implements BeneficiaryService {
+	
+	private static final Logger logger = LoggerFactory.getLogger(BeneficiaryServiceImpl.class);
+	
+	/**
+	 * This will inject all the implementations in the repository classes
+	 */
 
 	@Autowired
 	BeneficiaryRepository beneficiaryRepository;
@@ -35,9 +43,20 @@ public class BeneficiaryServiceImpl implements BeneficiaryService {
 	CustomerRepository customerRepository;
 	@Autowired
 	AccountRepository accountRepository;
+	
+	/**
+	 * This API is used to list all the beneficiary details by passing the customerId
+	 * 
+	 * By passing the customerId as a pathvariable the beneficiaries of current 
+	 * customer can be listed which includes both customer details and the beneficiary details
+	 * 
+	 * This returns the list of beneficiaries
+	 */
+
 
 	@Override
 	public List<Beneficiary> getAllBeneficiary(Integer customerId) {
+		logger.info("getting all beneficiaries");
 		Customer customer = new Customer();
 		customer.setCustomerId(customerId);
 		List<Beneficiary> beneficiaries = beneficiaryRepository.findAllByCustomerOrderByBeneficiaryNameAsc(customer);
@@ -47,10 +66,28 @@ public class BeneficiaryServiceImpl implements BeneficiaryService {
 			return beneficiaries;
 		}
 	}
+	
+	/**
+	 * This API is used to add the beneficiary by passing the addBeneficiaryRequestDto
+	 * 
+	 * addBeneficiaryRequestDto is a requestDto which includes 
+	 * customerId,beneficiaryName,beneficiaryAccountNumber and ifsc code
+	 * 
+	 * This returns the new beneficiary details
+	 * 
+	 * AccountNotFoundException .This exception occurs when account does not found
+	 * 
+	 * It throws MaximumBeneficiaryException. This exception occurs when beneficiary list 
+	 * exceeds the limit of 10 beneficiaries
+	 * 
+	 * It throws UserNotFoundException .This exception occurs when user does not found while adding beneficiary
+	 * It throws BeneficiaryAlreadyExistException. This exception occurs when beneficiary already exists while adding new one
+	 */
 
 	@Override
 	public MessageDto addBeneficiary(AddBeneficiaryRequestDto addBeneficiaryRequestDto) throws AccountNotFoundException,
-	MaximumBeneficiaryException, UserNotFoundException, BeneficiaryAlreadyExistException {
+			MaximumBeneficiaryException, UserNotFoundException, BeneficiaryAlreadyExistException {
+		logger.info("adding beneficiary...");
 		Beneficiary beneficiary = new Beneficiary();
 		Optional<Customer> customer = customerRepository.findById(addBeneficiaryRequestDto.getCustomerId());
 		Optional<Account> account = accountRepository.findById(addBeneficiaryRequestDto.getBeneficiaryAccountNumber());
@@ -77,8 +114,18 @@ public class BeneficiaryServiceImpl implements BeneficiaryService {
 			return messageDto;
 		}
 	}
+	/**
+	 * This API is used to delete the beneficiary by passing the beneficiaryId
+	 * 
+	 * By passing the beneficiaryId the unwanted beneficiary can be deleted
+	 *  
+	 * This returns the messageDto which includes message and statuscode
+	 * It throws BeneficiaryNotFoundException This exception occurs when beneficiary does not found
+	 */
+	
 
 	public MessageDto deleteBeneficiary(Integer beneficiaryId) throws BeneficiaryNotFoundException {
+		logger.info("deleting the beneficiary...");
 		MessageDto messageDto = new MessageDto();
 		Optional<Beneficiary> beneficiary = beneficiaryRepository.findByBeneficiaryId(beneficiaryId);
 		if (!beneficiary.isPresent())
@@ -89,11 +136,19 @@ public class BeneficiaryServiceImpl implements BeneficiaryService {
 		messageDto.setStatusCode(Constant.BENEFICIARY_DELETED);
 		return messageDto;
 	}
+	/**
+	 * This API is used to update the beneficiary details by passing the updateBeneficiaryRequestDto
+	 * 
+	 * updateBeneficiaryRequestDto includes beneficiaryName and beneficiaryId 
+	 * This returns the new edited beneficiary details
+	 * 
+	 * It throws BeneficiaryNotFoundException. This exception occurs when
+	 *  beneficiary does not found while editing the beneficiaryDetails
+	 */
 
-
-	
 	public MessageDto updateBeneficiary(UpdateBeneficiaryRequestDto updateBeneficiaryRequestDto)
 			throws BeneficiaryNotFoundException {
+		logger.info("updating beneficiary details...");
 		Optional<Beneficiary> beneficiary = beneficiaryRepository
 				.findById(updateBeneficiaryRequestDto.getBeneficiaryId());
 		if (beneficiary.isPresent()) {
@@ -108,7 +163,5 @@ public class BeneficiaryServiceImpl implements BeneficiaryService {
 			throw new BeneficiaryNotFoundException(Constant.BENEFICIARY_NOT_FOUND);
 		}
 	}
-
-	
 
 }

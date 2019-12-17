@@ -1,5 +1,7 @@
 package com.cassini.beneficiarymanagement.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -17,9 +19,22 @@ import com.cassini.beneficiarymanagement.service.BankService;
 @RequestMapping("/banks")
 public class BankController {
 	
+	private static final Logger logger = LoggerFactory.getLogger(BankController.class);
+	/**
+	 * This will inject all the implementations in the bankservice
+	 */
+	
 	@Autowired
 	private BankService bankService;
 	
+	/**
+	 * This API is used to get the bank details 
+	 * 
+	 * @param ifscCode.By passing ifsc code as a path variable the bank details could be fetched from the database
+	 * 
+	 * @return This returns the bank details 
+	 * @throws BankNotFound This exception is occurs when bank not found while searching banks
+	 */
 
 	@GetMapping("/{ifscCode}")
 	public ResponseEntity<Bank> getBankDetails(@PathVariable("ifscCode") String ifscCode) throws BankNotFound {

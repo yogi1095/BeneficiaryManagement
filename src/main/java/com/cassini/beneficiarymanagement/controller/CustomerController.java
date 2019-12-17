@@ -19,11 +19,15 @@ import com.cassini.beneficiarymanagement.service.CustomerService;
 @CrossOrigin
 @RequestMapping("/customers")
 public class CustomerController {
+	
 	private static final Logger logger = LoggerFactory.getLogger(CustomerController.class);
+	/**
+	 * This will inject all the implementations in the customerservice
+	 */
 
 	@Autowired
 	private CustomerService customerService;
-	
+
 	/**
 	 * This API has a method authenticateCustomer which will authenticate the user.
 	 * 
@@ -33,6 +37,7 @@ public class CustomerController {
 	 *         and String of result along with the statusCode.
 	 * @throws UserNotFoundException
 	 */
+	
 	@PostMapping("/login")
 	public ResponseEntity<Customer> authenticateCustomer(@RequestBody LoginRequestDto loginRequestDto)
 			throws UserNotFoundException {

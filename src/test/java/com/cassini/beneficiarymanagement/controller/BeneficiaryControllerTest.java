@@ -53,7 +53,9 @@ public class BeneficiaryControllerTest {
 		MessageDto messageDto=new MessageDto();
 		Mockito.when(beneficiaryService.deleteBeneficiary(1)).thenReturn(messageDto);
 		ResponseEntity<MessageDto> response= beneficiaryController.deleteBeneficiary(1);
+		assertNotNull(response);
 	}
+	
 	public void updateBeneficiary() throws BeneficiaryNotFoundException {
 		UpdateBeneficiaryRequestDto updateBeneficiaryRequestDto = new UpdateBeneficiaryRequestDto();
 		updateBeneficiaryRequestDto.setBeneficiaryId(1);

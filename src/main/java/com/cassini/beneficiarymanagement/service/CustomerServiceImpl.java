@@ -15,6 +15,9 @@ import com.cassini.beneficiarymanagement.repository.CustomerRepository;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
+	/**
+	 * This will inject all the implementations in the customerRepository
+	 */
 
 	@Autowired
 	CustomerRepository customerRepository;
@@ -30,6 +33,7 @@ public class CustomerServiceImpl implements CustomerService {
 	 *         and String of result along with the statusCode.
 	 * @throws UserNotFoundException
 	 */
+	
 	@Override
 	public Customer authenticateCustomer(LoginRequestDto loginRequestDto) throws UserNotFoundException {
 		logger.info("Entering into authentication Service");
