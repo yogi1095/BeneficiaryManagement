@@ -1,6 +1,5 @@
 package com.cassini.beneficiarymanagement.controller;
 
-
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;

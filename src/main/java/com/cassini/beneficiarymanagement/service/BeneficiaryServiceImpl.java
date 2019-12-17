@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import com.cassini.beneficiarymanagement.constants.Constant;
 import com.cassini.beneficiarymanagement.dto.AddBeneficiaryRequestDto;
+import com.cassini.beneficiarymanagement.dto.BeneficiaryListDto;
 import com.cassini.beneficiarymanagement.dto.MessageDto;
 import com.cassini.beneficiarymanagement.dto.UpdateBeneficiaryRequestDto;
 import com.cassini.beneficiarymanagement.entity.Account;
@@ -55,16 +56,23 @@ public class BeneficiaryServiceImpl implements BeneficiaryService {
 
 
 	@Override
-	public List<Beneficiary> getAllBeneficiary(Integer customerId) {
+	public List<BeneficiaryListDto> getAllBeneficiary(Integer customerId) {
 		logger.info("getting all beneficiaries");
 		Customer customer = new Customer();
 		customer.setCustomerId(customerId);
 		List<Beneficiary> beneficiaries = beneficiaryRepository.findAllByCustomerOrderByBeneficiaryNameAsc(customer);
-		if (beneficiaries.isEmpty()) {
-			return new ArrayList<>();
-		} else {
-			return beneficiaries;
-		}
+		List<BeneficiaryListDto> beneficiaryListDtos = new ArrayList<>();
+		beneficiaries.forEach(beneficiarie -> {
+			BeneficiaryListDto beneficiaryListDto = new BeneficiaryListDto();
+			beneficiaryListDto.setAccountNumber(beneficiarie.getBeneficiaryAccount().getAccountNumber());
+			beneficiaryListDto.setBankName(beneficiarie.getBeneficiaryAccount().getBank().getBankName());
+			beneficiaryListDto.setBeneficiaryName(beneficiarie.getBeneficiaryName());
+			beneficiaryListDto.setBranchName(beneficiarie.getBeneficiaryAccount().getBank().getBranchName());
+			beneficiaryListDto.setBeneficiaryId(beneficiarie.getBeneficiaryId());
+			beneficiaryListDtos.add(beneficiaryListDto);
+		});
+		return beneficiaryListDtos;
+
 	}
 	
 	/**
@@ -98,7 +106,7 @@ public class BeneficiaryServiceImpl implements BeneficiaryService {
 			throw new MaximumBeneficiaryException(Constant.MAX_BENEFICIARY);
 		} else if (!account.isPresent()) {
 			throw new AccountNotFoundException(Constant.ACCOUNT_NOT_FOUND);
-		} else if (!beneficiaryRepository.findByBeneficiaryAccountAndCustomer(account.get(), customer.get())
+		} else if (beneficiaryRepository.findByBeneficiaryAccountAndCustomer(account.get(), customer.get())
 				.isPresent()) {
 			throw new BeneficiaryAlreadyExistException(Constant.BENEFICIARY_ALREADY_EXIST);
 
@@ -124,6 +132,7 @@ public class BeneficiaryServiceImpl implements BeneficiaryService {
 	 */
 	
 
+	@Override
 	public MessageDto deleteBeneficiary(Integer beneficiaryId) throws BeneficiaryNotFoundException {
 		logger.info("deleting the beneficiary...");
 		MessageDto messageDto = new MessageDto();
@@ -146,6 +155,7 @@ public class BeneficiaryServiceImpl implements BeneficiaryService {
 	 *  beneficiary does not found while editing the beneficiaryDetails
 	 */
 
+	@Override
 	public MessageDto updateBeneficiary(UpdateBeneficiaryRequestDto updateBeneficiaryRequestDto)
 			throws BeneficiaryNotFoundException {
 		logger.info("updating beneficiary details...");

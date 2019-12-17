@@ -10,7 +10,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.http.ResponseEntity;
 
 import com.cassini.beneficiarymanagement.entity.Bank;
 import com.cassini.beneficiarymanagement.exception.BankNotFound;
@@ -18,13 +17,13 @@ import com.cassini.beneficiarymanagement.repository.BankRepository;
 
 @RunWith(MockitoJUnitRunner.class)
 public class BankServiceTest {
-	
-	@InjectMocks 
+
+	@InjectMocks
 	BankServiceImpl bankServiceImpl;
-	
+
 	@Mock
 	BankRepository bankRepository;
-	
+
 	@Test
 	public void findBankByIfscCode() throws BankNotFound {
 		Bank bank = new Bank();
@@ -36,10 +35,18 @@ public class BankServiceTest {
 		Bank actual = bankServiceImpl.getBankDetails("SBI09787");
 		assertNotNull(actual);
 	}
-
 	
 	
-	
-	
+	@Test(expected = BankNotFound.class)
+	public void findBankByIfscCodeNew() throws BankNotFound {
+		Bank bank = new Bank();
+		bank.setBankId(1);
+		bank.setBankName("IOB");
+		bank.setBranchName("Trichy");
+		bank.setIfscCode("SBI099757");
+		Mockito.when(bankRepository.findByIfscCode("SBI09787")).thenReturn(Optional.of(bank));
+		Bank actual = bankServiceImpl.getBankDetails("SBI09787");
+		assertNotNull(actual);
+	}
 
 }
