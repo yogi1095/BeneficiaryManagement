@@ -1,4 +1,4 @@
-package com.cassini.Beneficiary;
+package com.cassini.beneficiary;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
