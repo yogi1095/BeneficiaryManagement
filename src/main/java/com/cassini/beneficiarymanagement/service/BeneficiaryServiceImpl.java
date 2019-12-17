@@ -1,5 +1,7 @@
 package com.cassini.beneficiarymanagement.service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import javax.security.auth.login.AccountNotFoundException;
@@ -30,12 +32,24 @@ public class BeneficiaryServiceImpl implements BeneficiaryService {
 	@Autowired
 	CustomerRepository customerRepository;
 
+	@Override
+	public List<Beneficiary> getAllBeneficiary(Integer customerId) {
+		Customer customer = new Customer();
+		customer.setCustomerId(customerId);
+		List<Beneficiary> beneficiaries = beneficiaryRepository.findAllByCustomerOrderByBeneficiaryNameAsc(customer);
+		if (beneficiaries.isEmpty()) {
+			return new ArrayList<>();
+		} else {
+			return beneficiaries;
+		}
+	}
+
 	@Autowired
 	AccountRepository accountRepository;
 
 	@Override
-	public MessageDto addBeneficiary(AddBeneficiaryRequestDto addBeneficiaryRequestDto)
-			throws AccountNotFoundException, MaximumBeneficiaryException, UserNotFoundException, BeneficiaryAlreadyExistException {
+	public MessageDto addBeneficiary(AddBeneficiaryRequestDto addBeneficiaryRequestDto) throws AccountNotFoundException,
+			MaximumBeneficiaryException, UserNotFoundException, BeneficiaryAlreadyExistException {
 		Beneficiary beneficiary = new Beneficiary();
 		Optional<Customer> customer = customerRepository.findById(addBeneficiaryRequestDto.getCustomerId());
 		Optional<Account> account = accountRepository.findById(addBeneficiaryRequestDto.getBeneficiaryAccountNumber());
