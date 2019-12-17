@@ -19,6 +19,7 @@ import com.cassini.beneficiarymanagement.exception.UserNotFoundException;
 import com.cassini.beneficiarymanagement.repository.AccountRepository;
 import com.cassini.beneficiarymanagement.repository.CustomerRepository;
 
+
 @RunWith(MockitoJUnitRunner.Silent.class)
 public class CustomerServiceTest {
 
