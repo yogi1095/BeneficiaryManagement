@@ -17,6 +17,7 @@ import com.cassini.beneficiarymanagement.entity.Beneficiary;
 import com.cassini.beneficiarymanagement.entity.Customer;
 import com.cassini.beneficiarymanagement.service.BeneficiaryService;
 
+
 @RunWith(MockitoJUnitRunner.class)
 public class BeneficiaryControllerTest {
 	
