@@ -11,10 +11,15 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.http.HttpStatus;
 
+import com.cassini.beneficiarymanagement.constants.Constant;
 import com.cassini.beneficiarymanagement.controller.BeneficiaryController;
+import com.cassini.beneficiarymanagement.dto.MessageDto;
+import com.cassini.beneficiarymanagement.dto.UpdateBeneficiaryRequestDto;
 import com.cassini.beneficiarymanagement.entity.Beneficiary;
 import com.cassini.beneficiarymanagement.entity.Customer;
+import com.cassini.beneficiarymanagement.exception.BeneficiaryNotFoundException;
 import com.cassini.beneficiarymanagement.service.BeneficiaryService;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -41,6 +46,19 @@ public class BeneficiaryControllerTest {
 		Mockito.when(beneficiaryService.getAllBeneficiary(1)).thenReturn(beneficiaries);
 		List<Beneficiary> actual = beneficiaryService.getAllBeneficiary(1);
 		assertNotNull(actual);
+	}
+	
+	@Test
+	public void updateBeneficiary() throws BeneficiaryNotFoundException {
+		UpdateBeneficiaryRequestDto updateBeneficiaryRequestDto = new UpdateBeneficiaryRequestDto();
+		updateBeneficiaryRequestDto.setBeneficiaryId(1);
+		updateBeneficiaryRequestDto.setBeneficiaryName("yoga");
+		MessageDto messageDto = new MessageDto();
+		messageDto.setMessage(Constant.SUCCESS);
+		messageDto.setStatusCode(200);
+		Mockito.when(beneficiaryService.updateBeneficiary(updateBeneficiaryRequestDto)).thenReturn(messageDto);
+		MessageDto response = beneficiaryController.updateBeneficiary(updateBeneficiaryRequestDto);
+		assertNotNull(response);
 	}
 
 }
