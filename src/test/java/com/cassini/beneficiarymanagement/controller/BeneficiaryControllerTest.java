@@ -11,6 +11,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.http.ResponseEntity;
 
 import com.cassini.beneficiarymanagement.controller.BeneficiaryController;
 import com.cassini.beneficiarymanagement.entity.Beneficiary;
@@ -39,7 +40,7 @@ public class BeneficiaryControllerTest {
 		beneficiaries = new ArrayList<>();
 		beneficiaries.add(beneficiary);
 		Mockito.when(beneficiaryService.getAllBeneficiary(1)).thenReturn(beneficiaries);
-		List<Beneficiary> actual = beneficiaryService.getAllBeneficiary(1);
+		ResponseEntity<List<Beneficiary>> actual = beneficiaryController.getAllBeneficiary(1);
 		assertNotNull(actual);
 	}
 
