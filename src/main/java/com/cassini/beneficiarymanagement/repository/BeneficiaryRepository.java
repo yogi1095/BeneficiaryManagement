@@ -1,5 +1,6 @@
 package com.cassini.beneficiarymanagement.repository;
 
+import java.util.Optional;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,5 +20,10 @@ public interface BeneficiaryRepository extends JpaRepository<Beneficiary, Intege
 	Optional<Beneficiary> findByBeneficiaryAccountAndCustomer(Account account, Customer customer);
 
 	List<Beneficiary> findAllByCustomerOrderByBeneficiaryNameAsc(Customer customerId);
+
+	public Optional<Beneficiary> findByBeneficiaryId(Integer beneficiaryId);
+
+	
+
 
 }

@@ -33,6 +33,8 @@ public class BeneficiaryServiceImpl implements BeneficiaryService {
 
 	@Autowired
 	CustomerRepository customerRepository;
+	@Autowired
+	AccountRepository accountRepository;
 
 	@Override
 	public List<Beneficiary> getAllBeneficiary(Integer customerId) {
@@ -45,9 +47,6 @@ public class BeneficiaryServiceImpl implements BeneficiaryService {
 			return beneficiaries;
 		}
 	}
-
-	@Autowired
-	AccountRepository accountRepository;
 
 	@Override
 	public MessageDto addBeneficiary(AddBeneficiaryRequestDto addBeneficiaryRequestDto) throws AccountNotFoundException,
@@ -79,7 +78,20 @@ public class BeneficiaryServiceImpl implements BeneficiaryService {
 		}
 	}
 
-	@Override
+	public MessageDto deleteBeneficiary(Integer beneficiaryId) throws BeneficiaryNotFoundException {
+		MessageDto messageDto = new MessageDto();
+		Optional<Beneficiary> beneficiary = beneficiaryRepository.findByBeneficiaryId(beneficiaryId);
+		if (!beneficiary.isPresent())
+			throw new BeneficiaryNotFoundException(Constant.BENEFICIARY_NOT_FOUND);
+		beneficiary.get().setStatus("Inactive");
+		beneficiaryRepository.save(beneficiary.get());
+		messageDto.setMessage(Constant.SUCCESS);
+		messageDto.setStatusCode(Constant.BENEFICIARY_DELETED);
+		return messageDto;
+	}
+
+
+	
 	public MessageDto updateBeneficiary(UpdateBeneficiaryRequestDto updateBeneficiaryRequestDto)
 			throws BeneficiaryNotFoundException {
 		Optional<Beneficiary> beneficiary = beneficiaryRepository
@@ -96,5 +108,7 @@ public class BeneficiaryServiceImpl implements BeneficiaryService {
 			throw new BeneficiaryNotFoundException(Constant.BENEFICIARY_NOT_FOUND);
 		}
 	}
+
+	
 
 }

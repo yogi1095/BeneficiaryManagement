@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -45,11 +46,19 @@ public class BeneficiaryController {
 			BeneficiaryAlreadyExistException {
 		return beneficiaryService.addBeneficiary(addBeneficiaryRequestDto);
 	}
-	
+
 	@PutMapping
-	public MessageDto updateBeneficiary(@RequestBody UpdateBeneficiaryRequestDto updateBeneficiaryRequestDto) throws BeneficiaryNotFoundException {
-		
+	public MessageDto updateBeneficiary(@RequestBody UpdateBeneficiaryRequestDto updateBeneficiaryRequestDto)
+			throws BeneficiaryNotFoundException {
+
 		return beneficiaryService.updateBeneficiary(updateBeneficiaryRequestDto);
+	}
+
+	@DeleteMapping("/{beneficiaryId}")
+	public ResponseEntity<MessageDto> deleteBeneficiary(@PathVariable("beneficiaryId") Integer beneficiaryId)
+			throws BeneficiaryNotFoundException {
+		return ResponseEntity.ok().body(beneficiaryService.deleteBeneficiary(beneficiaryId));
+
 	}
 
 }

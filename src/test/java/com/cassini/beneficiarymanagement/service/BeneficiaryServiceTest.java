@@ -49,6 +49,18 @@ public class BeneficiaryServiceTest {
 	}
 
 	@Test
+	public void testDeleteBeneficiary() throws BeneficiaryNotFoundException {
+		Beneficiary beneficiary = new Beneficiary();
+		MessageDto messageDto = new MessageDto();
+		Mockito.when(beneficiaryRepository.findByBeneficiaryId(1)).thenReturn(Optional.of(beneficiary));
+		messageDto.setMessage("success");
+		messageDto.setStatusCode(200);
+		MessageDto response = beneficiaryServiceImpl.deleteBeneficiary(1);
+		assertNotNull(response);
+
+	}
+
+	@Test
 	public void testupdateBeneficiary() throws BeneficiaryNotFoundException {
 		UpdateBeneficiaryRequestDto updateBeneficiaryRequestDto = new UpdateBeneficiaryRequestDto();
 		updateBeneficiaryRequestDto.setBeneficiaryId(1);

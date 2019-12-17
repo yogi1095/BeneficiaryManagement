@@ -1,6 +1,7 @@
 package com.cassini.beneficiarymanagement.exception;
 
 public class BeneficiaryNotFoundException extends Exception {
+
 	/**
 	 * 
 	 */

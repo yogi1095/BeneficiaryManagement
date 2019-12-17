@@ -20,6 +20,7 @@ import com.cassini.beneficiarymanagement.entity.Customer;
 import com.cassini.beneficiarymanagement.exception.BeneficiaryNotFoundException;
 import com.cassini.beneficiarymanagement.service.BeneficiaryService;
 
+
 @RunWith(MockitoJUnitRunner.class)
 public class BeneficiaryControllerTest {
 
@@ -47,6 +48,11 @@ public class BeneficiaryControllerTest {
 	}
 
 	@Test
+	public void testDeleteBeneficiary() throws BeneficiaryNotFoundException {
+		MessageDto messageDto=new MessageDto();
+		Mockito.when(beneficiaryService.deleteBeneficiary(1)).thenReturn(messageDto);
+		ResponseEntity<MessageDto> response= beneficiaryController.deleteBeneficiary(1);
+	}
 	public void updateBeneficiary() throws BeneficiaryNotFoundException {
 		UpdateBeneficiaryRequestDto updateBeneficiaryRequestDto = new UpdateBeneficiaryRequestDto();
 		updateBeneficiaryRequestDto.setBeneficiaryId(1);

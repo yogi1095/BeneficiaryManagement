@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import com.cassini.beneficiarymanagement.entity.Customer;
 
+
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer, Integer>{
 

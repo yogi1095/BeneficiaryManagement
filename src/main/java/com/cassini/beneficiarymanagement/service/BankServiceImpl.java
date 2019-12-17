@@ -10,11 +10,12 @@ import com.cassini.beneficiarymanagement.entity.Bank;
 import com.cassini.beneficiarymanagement.exception.BankNotFound;
 import com.cassini.beneficiarymanagement.repository.BankRepository;
 
+
 @Service
 public class BankServiceImpl implements BankService {
 
 	@Autowired
-	private BankRepository bankRepository;
+	BankRepository bankRepository;
 
 	@Override
 	public Bank getBankDetails(String ifscCode) throws BankNotFound {
