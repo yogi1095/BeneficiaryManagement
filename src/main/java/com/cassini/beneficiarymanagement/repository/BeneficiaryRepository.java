@@ -20,4 +20,9 @@ public interface BeneficiaryRepository extends JpaRepository<Beneficiary, Intege
 
 	List<Beneficiary> findAllByCustomerOrderByBeneficiaryNameAsc(Customer customerId);
 
+	public Optional<Beneficiary> findByBeneficiaryId(Integer beneficiaryId);
+
+	
+
+
 }

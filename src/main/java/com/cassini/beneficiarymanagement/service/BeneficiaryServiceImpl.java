@@ -14,10 +14,12 @@ import com.cassini.beneficiarymanagement.constants.Constant;
 import com.cassini.beneficiarymanagement.dto.AddBeneficiaryRequestDto;
 import com.cassini.beneficiarymanagement.dto.BeneficiaryListDto;
 import com.cassini.beneficiarymanagement.dto.MessageDto;
+import com.cassini.beneficiarymanagement.dto.UpdateBeneficiaryRequestDto;
 import com.cassini.beneficiarymanagement.entity.Account;
 import com.cassini.beneficiarymanagement.entity.Beneficiary;
 import com.cassini.beneficiarymanagement.entity.Customer;
 import com.cassini.beneficiarymanagement.exception.BeneficiaryAlreadyExistException;
+import com.cassini.beneficiarymanagement.exception.BeneficiaryNotFoundException;
 import com.cassini.beneficiarymanagement.exception.MaximumBeneficiaryException;
 import com.cassini.beneficiarymanagement.exception.UserNotFoundException;
 import com.cassini.beneficiarymanagement.repository.AccountRepository;
@@ -32,6 +34,8 @@ public class BeneficiaryServiceImpl implements BeneficiaryService {
 
 	@Autowired
 	CustomerRepository customerRepository;
+	@Autowired
+	AccountRepository accountRepository;
 
 	@Override
 	public List<BeneficiaryListDto> getAllBeneficiary(Integer customerId) {
@@ -51,12 +55,9 @@ public class BeneficiaryServiceImpl implements BeneficiaryService {
 		return beneficiaryListDtos;
 	}
 
-	@Autowired
-	AccountRepository accountRepository;
-
 	@Override
 	public MessageDto addBeneficiary(AddBeneficiaryRequestDto addBeneficiaryRequestDto) throws AccountNotFoundException,
-			MaximumBeneficiaryException, UserNotFoundException, BeneficiaryAlreadyExistException {
+	MaximumBeneficiaryException, UserNotFoundException, BeneficiaryAlreadyExistException {
 		Beneficiary beneficiary = new Beneficiary();
 		Optional<Customer> customer = customerRepository.findById(addBeneficiaryRequestDto.getCustomerId());
 		Optional<Account> account = accountRepository.findById(addBeneficiaryRequestDto.getBeneficiaryAccountNumber());
@@ -83,5 +84,38 @@ public class BeneficiaryServiceImpl implements BeneficiaryService {
 			return messageDto;
 		}
 	}
+
+	public MessageDto deleteBeneficiary(Integer beneficiaryId) throws BeneficiaryNotFoundException {
+		MessageDto messageDto = new MessageDto();
+		Optional<Beneficiary> beneficiary = beneficiaryRepository.findByBeneficiaryId(beneficiaryId);
+		if (!beneficiary.isPresent())
+			throw new BeneficiaryNotFoundException(Constant.BENEFICIARY_NOT_FOUND);
+		beneficiary.get().setStatus("Inactive");
+		beneficiaryRepository.save(beneficiary.get());
+		messageDto.setMessage(Constant.SUCCESS);
+		messageDto.setStatusCode(Constant.BENEFICIARY_DELETED);
+		return messageDto;
+	}
+
+
+	
+	public MessageDto updateBeneficiary(UpdateBeneficiaryRequestDto updateBeneficiaryRequestDto)
+			throws BeneficiaryNotFoundException {
+		Optional<Beneficiary> beneficiary = beneficiaryRepository
+				.findById(updateBeneficiaryRequestDto.getBeneficiaryId());
+		if (beneficiary.isPresent()) {
+			beneficiary.get().setBeneficiaryName(updateBeneficiaryRequestDto.getBeneficiaryName());
+			beneficiaryRepository.save(beneficiary.get());
+			MessageDto messageDto = new MessageDto();
+			messageDto.setMessage(Constant.SUCCESS);
+			messageDto.setStatusCode(HttpStatus.OK.value());
+			return messageDto;
+		} else {
+
+			throw new BeneficiaryNotFoundException(Constant.BENEFICIARY_NOT_FOUND);
+		}
+	}
+
+	
 
 }

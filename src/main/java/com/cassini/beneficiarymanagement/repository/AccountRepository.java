@@ -7,4 +7,7 @@ import com.cassini.beneficiarymanagement.entity.Account;
 @Repository
 public interface AccountRepository extends JpaRepository<Account, Long>{
 
+	
+	
+
 }

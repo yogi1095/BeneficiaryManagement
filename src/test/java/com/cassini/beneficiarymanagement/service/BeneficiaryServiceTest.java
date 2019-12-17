@@ -15,16 +15,21 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import com.cassini.beneficiarymanagement.constants.Constant;
 import com.cassini.beneficiarymanagement.dto.AddBeneficiaryRequestDto;
+import com.cassini.beneficiarymanagement.dto.MessageDto;
+import com.cassini.beneficiarymanagement.dto.UpdateBeneficiaryRequestDto;
 import com.cassini.beneficiarymanagement.entity.Account;
 import com.cassini.beneficiarymanagement.entity.Beneficiary;
 import com.cassini.beneficiarymanagement.entity.Customer;
 import com.cassini.beneficiarymanagement.exception.BeneficiaryAlreadyExistException;
+import com.cassini.beneficiarymanagement.exception.BeneficiaryNotFoundException;
 import com.cassini.beneficiarymanagement.exception.MaximumBeneficiaryException;
 import com.cassini.beneficiarymanagement.exception.UserNotFoundException;
 import com.cassini.beneficiarymanagement.repository.AccountRepository;
 import com.cassini.beneficiarymanagement.repository.BeneficiaryRepository;
 import com.cassini.beneficiarymanagement.repository.CustomerRepository;
+
 
 @RunWith(MockitoJUnitRunner.Silent.class)
 public class BeneficiaryServiceTest {
@@ -117,6 +122,50 @@ public class BeneficiaryServiceTest {
 				.thenReturn(Optional.ofNullable(null));
 		assertNotNull( beneficiaryServiceImpl.addBeneficiary(addBeneficiaryRequestDto).getStatusCode());
 
+	}
+
+	@Test
+	public void testDeleteBeneficiary() throws BeneficiaryNotFoundException {
+		Beneficiary beneficiary = new Beneficiary();
+		MessageDto messageDto = new MessageDto();
+		Mockito.when(beneficiaryRepository.findByBeneficiaryId(1)).thenReturn(Optional.of(beneficiary));
+		messageDto.setMessage("success");
+		messageDto.setStatusCode(200);
+		MessageDto response = beneficiaryServiceImpl.deleteBeneficiary(1);
+		assertNotNull(response);
+
+	}
+
+	@Test
+	public void testupdateBeneficiary() throws BeneficiaryNotFoundException {
+		UpdateBeneficiaryRequestDto updateBeneficiaryRequestDto = new UpdateBeneficiaryRequestDto();
+		updateBeneficiaryRequestDto.setBeneficiaryId(1);
+		updateBeneficiaryRequestDto.setBeneficiaryName("yoga");
+		MessageDto messageDto = new MessageDto();
+		messageDto.setMessage(Constant.SUCCESS);
+		messageDto.setStatusCode(200);
+		Beneficiary beneficiary = new Beneficiary();
+		beneficiary.setBeneficiaryId(1);
+		beneficiary.setBeneficiaryName("yoga");
+		Mockito.when(beneficiaryRepository.findById(1)).thenReturn(Optional.of(beneficiary));
+		MessageDto response = beneficiaryServiceImpl.updateBeneficiary(updateBeneficiaryRequestDto);
+		assertNotNull(response);
+	}
+
+	@Test(expected = BeneficiaryNotFoundException.class)
+	public void testupdateBeneficiaryNegative() throws BeneficiaryNotFoundException {
+		UpdateBeneficiaryRequestDto updateBeneficiaryRequestDto = new UpdateBeneficiaryRequestDto();
+		updateBeneficiaryRequestDto.setBeneficiaryId(1);
+		updateBeneficiaryRequestDto.setBeneficiaryName("yoga");
+		MessageDto messageDto = new MessageDto();
+		messageDto.setMessage(Constant.SUCCESS);
+		messageDto.setStatusCode(200);
+		Beneficiary beneficiary = new Beneficiary();
+		beneficiary.setBeneficiaryId(1);
+		beneficiary.setBeneficiaryName("reddy");
+		Mockito.when(beneficiaryRepository.findById(2)).thenReturn(Optional.of(beneficiary));
+		MessageDto response = beneficiaryServiceImpl.updateBeneficiary(updateBeneficiaryRequestDto);
+		assertNotNull(response);
 	}
 
 }
