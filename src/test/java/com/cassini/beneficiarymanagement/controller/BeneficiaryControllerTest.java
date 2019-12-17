@@ -13,8 +13,9 @@ import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.http.ResponseEntity;
 
-import com.cassini.beneficiarymanagement.controller.BeneficiaryController;
+import com.cassini.beneficiarymanagement.constants.Constant;
 import com.cassini.beneficiarymanagement.dto.MessageDto;
+import com.cassini.beneficiarymanagement.dto.UpdateBeneficiaryRequestDto;
 import com.cassini.beneficiarymanagement.entity.Beneficiary;
 import com.cassini.beneficiarymanagement.entity.Customer;
 import com.cassini.beneficiarymanagement.exception.BeneficiaryNotFoundException;
@@ -52,6 +53,16 @@ public class BeneficiaryControllerTest {
 		MessageDto messageDto=new MessageDto();
 		Mockito.when(beneficiaryService.deleteBeneficiary(1)).thenReturn(messageDto);
 		ResponseEntity<MessageDto> response= beneficiaryController.deleteBeneficiary(1);
+	}
+	public void updateBeneficiary() throws BeneficiaryNotFoundException {
+		UpdateBeneficiaryRequestDto updateBeneficiaryRequestDto = new UpdateBeneficiaryRequestDto();
+		updateBeneficiaryRequestDto.setBeneficiaryId(1);
+		updateBeneficiaryRequestDto.setBeneficiaryName("yoga");
+		MessageDto messageDto = new MessageDto();
+		messageDto.setMessage(Constant.SUCCESS);
+		messageDto.setStatusCode(200);
+		Mockito.when(beneficiaryService.updateBeneficiary(updateBeneficiaryRequestDto)).thenReturn(messageDto);
+		MessageDto response = beneficiaryController.updateBeneficiary(updateBeneficiaryRequestDto);
 		assertNotNull(response);
 	}
 

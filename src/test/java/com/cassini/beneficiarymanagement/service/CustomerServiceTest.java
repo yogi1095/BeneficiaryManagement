@@ -7,9 +7,11 @@ import java.time.LocalDate;
 import java.util.Optional;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import com.cassini.beneficiarymanagement.dto.LoginRequestDto;
 import com.cassini.beneficiarymanagement.entity.Customer;
@@ -18,8 +20,9 @@ import com.cassini.beneficiarymanagement.repository.AccountRepository;
 import com.cassini.beneficiarymanagement.repository.CustomerRepository;
 
 
-
+@RunWith(MockitoJUnitRunner.Silent.class)
 public class CustomerServiceTest {
+
 	@InjectMocks
 	CustomerServiceImpl customerServiceImpl;
 
@@ -43,7 +46,8 @@ public class CustomerServiceTest {
 		LoginRequestDto loginRequestDto = new LoginRequestDto();
 		loginRequestDto.setUserName("priya");
 		loginRequestDto.setPassword("sri");
-		Mockito.when(customerRepository.findByUserNameAndPassword(loginRequestDto.getUserName(), loginRequestDto.getPassword())).thenReturn(Optional.of(customer));
+		Mockito.when(customerRepository.findByUserNameAndPassword(loginRequestDto.getUserName(),
+				loginRequestDto.getPassword())).thenReturn(Optional.of(customer));
 		Customer loginResponseDto1 = customerServiceImpl.authenticateCustomer(loginRequestDto);
 		assertNotNull(loginResponseDto1);
 	}
@@ -66,4 +70,5 @@ public class CustomerServiceTest {
 		Customer loginResponseDto1 = customerServiceImpl.authenticateCustomer(loginRequestDto);
 		assertNull(loginResponseDto1);
 	}
+
 }
