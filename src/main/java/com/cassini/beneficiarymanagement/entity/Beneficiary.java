@@ -19,11 +19,12 @@ public class Beneficiary {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer beneficiaryId;
 	private String beneficiaryName;
+	private String status;
 	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "from_account_number")
-	private Account fromAccount;
+	@JoinColumn(name = "customer_id")
+	private Customer customer;
 	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "to_account_number")
-	private Account toAccount;
+	@JoinColumn(name = "beneficiary_account_number")
+	private Account beneficiaryAccount;
 
 }
