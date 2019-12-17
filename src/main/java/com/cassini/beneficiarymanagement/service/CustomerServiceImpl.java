@@ -13,10 +13,9 @@ import com.cassini.beneficiarymanagement.entity.Customer;
 import com.cassini.beneficiarymanagement.exception.UserNotFoundException;
 import com.cassini.beneficiarymanagement.repository.CustomerRepository;
 
-
 @Service
 public class CustomerServiceImpl implements CustomerService {
-	
+
 	@Autowired
 	CustomerRepository customerRepository;
 
@@ -33,6 +32,7 @@ public class CustomerServiceImpl implements CustomerService {
 	 */
 	@Override
 	public Customer authenticateCustomer(LoginRequestDto loginRequestDto) throws UserNotFoundException {
+		logger.info("Entering into authentication Service");
 		Optional<Customer> customer = customerRepository.findByUserNameAndPassword(loginRequestDto.getUserName(),
 				loginRequestDto.getPassword());
 		if (customer.isPresent()) {
@@ -42,6 +42,5 @@ public class CustomerServiceImpl implements CustomerService {
 		}
 
 	}
-
 
 }
