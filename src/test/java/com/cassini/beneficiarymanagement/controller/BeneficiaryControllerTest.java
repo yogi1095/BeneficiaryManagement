@@ -11,10 +11,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.http.ResponseEntity;
 
 import com.cassini.beneficiarymanagement.controller.BeneficiaryController;
+import com.cassini.beneficiarymanagement.dto.MessageDto;
 import com.cassini.beneficiarymanagement.entity.Beneficiary;
 import com.cassini.beneficiarymanagement.entity.Customer;
+import com.cassini.beneficiarymanagement.exception.BeneficiaryNotFoundException;
 import com.cassini.beneficiarymanagement.service.BeneficiaryService;
 
 
@@ -42,6 +45,14 @@ public class BeneficiaryControllerTest {
 		Mockito.when(beneficiaryService.getAllBeneficiary(1)).thenReturn(beneficiaries);
 		List<Beneficiary> actual = beneficiaryService.getAllBeneficiary(1);
 		assertNotNull(actual);
+	}
+	
+	@Test
+	public void testDeleteBeneficiary() throws BeneficiaryNotFoundException {
+		MessageDto messageDto=new MessageDto();
+		Mockito.when(beneficiaryService.deleteBeneficiary(1)).thenReturn(messageDto);
+		ResponseEntity<MessageDto> response= beneficiaryController.deleteBeneficiary(1);
+		assertNotNull(response);
 	}
 
 }

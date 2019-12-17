@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.cassini.beneficiarymanagement.constants.Constant;
 import com.cassini.beneficiarymanagement.dto.AddBeneficiaryRequestDto;
 import com.cassini.beneficiarymanagement.dto.MessageDto;
+import com.cassini.beneficiarymanagement.dto.UpdateBeneficiaryRequestDto;
 import com.cassini.beneficiarymanagement.entity.Account;
 import com.cassini.beneficiarymanagement.entity.Beneficiary;
 import com.cassini.beneficiarymanagement.entity.Customer;
@@ -47,8 +48,6 @@ public class BeneficiaryServiceImpl implements BeneficiaryService {
 		}
 	}
 
-	
-
 	@Override
 	public MessageDto addBeneficiary(AddBeneficiaryRequestDto addBeneficiaryRequestDto) throws AccountNotFoundException,
 			MaximumBeneficiaryException, UserNotFoundException, BeneficiaryAlreadyExistException {
@@ -79,8 +78,7 @@ public class BeneficiaryServiceImpl implements BeneficiaryService {
 		}
 	}
 
-	@Override
-	public MessageDto deleteAccounts(Integer beneficiaryId) throws BeneficiaryNotFoundException {
+	public MessageDto deleteBeneficiary(Integer beneficiaryId) throws BeneficiaryNotFoundException {
 		MessageDto messageDto = new MessageDto();
 		Optional<Beneficiary> beneficiary = beneficiaryRepository.findByBeneficiaryId(beneficiaryId);
 		if (!beneficiary.isPresent())
@@ -91,5 +89,26 @@ public class BeneficiaryServiceImpl implements BeneficiaryService {
 		messageDto.setStatusCode(Constant.BENEFICIARY_DELETED);
 		return messageDto;
 	}
+
+
 	
+	public MessageDto updateBeneficiary(UpdateBeneficiaryRequestDto updateBeneficiaryRequestDto)
+			throws BeneficiaryNotFoundException {
+		Optional<Beneficiary> beneficiary = beneficiaryRepository
+				.findById(updateBeneficiaryRequestDto.getBeneficiaryId());
+		if (beneficiary.isPresent()) {
+			beneficiary.get().setBeneficiaryName(updateBeneficiaryRequestDto.getBeneficiaryName());
+			beneficiaryRepository.save(beneficiary.get());
+			MessageDto messageDto = new MessageDto();
+			messageDto.setMessage(Constant.SUCCESS);
+			messageDto.setStatusCode(HttpStatus.OK.value());
+			return messageDto;
+		} else {
+
+			throw new BeneficiaryNotFoundException(Constant.BENEFICIARY_NOT_FOUND);
+		}
+	}
+
+	
+
 }

@@ -16,8 +16,10 @@ import com.cassini.beneficiarymanagement.service.BankService;
 @CrossOrigin
 @RequestMapping("/banks")
 public class BankController {
+	
 	@Autowired
 	private BankService bankService;
+	
 
 	@GetMapping("/{ifscCode}")
 	public ResponseEntity<Bank> getBankDetails(@PathVariable("ifscCode") String ifscCode) throws BankNotFound {
