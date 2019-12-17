@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cassini.beneficiarymanagement.dto.AddBeneficiaryRequestDto;
+import com.cassini.beneficiarymanagement.dto.BeneficiaryListDto;
 import com.cassini.beneficiarymanagement.dto.MessageDto;
 import com.cassini.beneficiarymanagement.dto.UpdateBeneficiaryRequestDto;
-import com.cassini.beneficiarymanagement.entity.Beneficiary;
 import com.cassini.beneficiarymanagement.exception.BeneficiaryAlreadyExistException;
 import com.cassini.beneficiarymanagement.exception.BeneficiaryNotFoundException;
 import com.cassini.beneficiarymanagement.exception.MaximumBeneficiaryException;
@@ -36,7 +36,7 @@ public class BeneficiaryController {
 	BeneficiaryService beneficiaryService;
 
 	@GetMapping("/{customerId}")
-	public ResponseEntity<List<Beneficiary>> getAllBeneficiary(@PathVariable("customerId") Integer customerId) {
+	public ResponseEntity<List<BeneficiaryListDto>> getAllBeneficiary(@PathVariable("customerId") Integer customerId) {
 		return new ResponseEntity<>(beneficiaryService.getAllBeneficiary(customerId), HttpStatus.OK);
 	}
 
@@ -46,7 +46,7 @@ public class BeneficiaryController {
 			BeneficiaryAlreadyExistException {
 		return beneficiaryService.addBeneficiary(addBeneficiaryRequestDto);
 	}
-
+	
 	@PutMapping
 	public MessageDto updateBeneficiary(@RequestBody UpdateBeneficiaryRequestDto updateBeneficiaryRequestDto)
 			throws BeneficiaryNotFoundException {
@@ -60,5 +60,5 @@ public class BeneficiaryController {
 		return ResponseEntity.ok().body(beneficiaryService.deleteBeneficiary(beneficiaryId));
 
 	}
-
+	
 }
