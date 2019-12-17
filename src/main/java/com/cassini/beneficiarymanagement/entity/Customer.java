@@ -21,6 +21,5 @@ public class Customer {
 	private String password;
 	private Long phoneNumber;
 	private String emailId;
-	private String gender;
 
 }
