@@ -20,7 +20,6 @@ import com.cassini.beneficiarymanagement.entity.Beneficiary;
 import com.cassini.beneficiarymanagement.entity.Customer;
 import com.cassini.beneficiarymanagement.exception.BeneficiaryNotFoundException;
 import com.cassini.beneficiarymanagement.repository.BeneficiaryRepository;
-import com.cassini.beneficiarymanagement.service.BeneficiaryServiceImpl;
 
 @RunWith(MockitoJUnitRunner.Silent.class)
 public class BeneficiaryServiceTest {

@@ -22,6 +22,7 @@ import com.cassini.beneficiarymanagement.repository.CustomerRepository;
 
 @RunWith(MockitoJUnitRunner.Silent.class)
 public class CustomerServiceTest {
+
 	@InjectMocks
 	CustomerServiceImpl customerServiceImpl;
 
@@ -45,7 +46,8 @@ public class CustomerServiceTest {
 		LoginRequestDto loginRequestDto = new LoginRequestDto();
 		loginRequestDto.setUserName("priya");
 		loginRequestDto.setPassword("sri");
-		Mockito.when(customerRepository.findByUserNameAndPassword(loginRequestDto.getUserName(), loginRequestDto.getPassword())).thenReturn(Optional.of(customer));
+		Mockito.when(customerRepository.findByUserNameAndPassword(loginRequestDto.getUserName(),
+				loginRequestDto.getPassword())).thenReturn(Optional.of(customer));
 		Customer loginResponseDto1 = customerServiceImpl.authenticateCustomer(loginRequestDto);
 		assertNotNull(loginResponseDto1);
 	}
@@ -68,4 +70,5 @@ public class CustomerServiceTest {
 		Customer loginResponseDto1 = customerServiceImpl.authenticateCustomer(loginRequestDto);
 		assertNull(loginResponseDto1);
 	}
+
 }

@@ -1,5 +1,6 @@
 package com.cassini.beneficiarymanagement.controller;
 
+
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
@@ -14,13 +15,19 @@ import org.springframework.http.ResponseEntity;
 import com.cassini.beneficiarymanagement.dto.LoginRequestDto;
 import com.cassini.beneficiarymanagement.entity.Customer;
 import com.cassini.beneficiarymanagement.exception.UserNotFoundException;
+<<<<<<< HEAD
 @RunWith(MockitoJUnitRunner.class)
+=======
+import com.cassini.beneficiarymanagement.service.CustomerService;
+
+@RunWith(MockitoJUnitRunner.Silent.class)
+>>>>>>> 851e9d7011d6a2103fb4807479dae9724e0a43cd
 public class CustomerControllerTest {
 	@InjectMocks
 	CustomerController customerController;
 
 	@Mock
-	com.cassini.beneficiarymanagement.service.CustomerService customerService;
+	CustomerService customerService;
 
 	@Test
 	public void authenticateCustomerTestPositive() throws UserNotFoundException {

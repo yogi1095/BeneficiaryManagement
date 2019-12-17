@@ -51,7 +51,7 @@ public class BeneficiaryServiceImpl implements BeneficiaryService {
 
 	@Override
 	public MessageDto addBeneficiary(AddBeneficiaryRequestDto addBeneficiaryRequestDto) throws AccountNotFoundException,
-			MaximumBeneficiaryException, UserNotFoundException, BeneficiaryAlreadyExistException {
+	MaximumBeneficiaryException, UserNotFoundException, BeneficiaryAlreadyExistException {
 		Beneficiary beneficiary = new Beneficiary();
 		Optional<Customer> customer = customerRepository.findById(addBeneficiaryRequestDto.getCustomerId());
 		Optional<Account> account = accountRepository.findById(addBeneficiaryRequestDto.getBeneficiaryAccountNumber());
