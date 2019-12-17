@@ -1,9 +1,7 @@
 package com.cassini.beneficiarymanagement.controller;
 
-<<<<<<<HEAD
-
-import javax.security.auth.login.AccountNotFoundException;=======
-import java.util.List;>>>>>>>5ef 05e69 b9879301fa7fe523637f3d362f1f1db2
+import javax.security.auth.login.AccountNotFoundException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cassini.beneficiarymanagement.dto.AddBeneficiaryRequestDto;
-import com.cassini.beneficiarymanagement.dto.MessageDto;<<<<<<<HEAD
+import com.cassini.beneficiarymanagement.dto.MessageDto;
 import com.cassini.beneficiarymanagement.exception.BeneficiaryAlreadyExistException;
 import com.cassini.beneficiarymanagement.exception.MaximumBeneficiaryException;
 import com.cassini.beneficiarymanagement.exception.UserNotFoundException;
