@@ -15,4 +15,9 @@ public class Constant {
 
 	public static final String SUCCESS = "Success";
 	public static final String ACTIVE = "Active";
+	public static final String ACCOUNT_NOT_FOUND = "account not found";
+	public static final String MAX_BENEFICIARY = "maximum beneficiaries reached";
+	public static final String BENEFICIARY_ALREADY_EXIST = "beneficiarie already exist";
+	public static final Integer MAX_BENEFICIARY_COUNT = 10;
+
 }
