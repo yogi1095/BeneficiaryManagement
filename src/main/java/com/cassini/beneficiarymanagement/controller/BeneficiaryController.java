@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cassini.beneficiarymanagement.dto.AddBeneficiaryRequestDto;
+import com.cassini.beneficiarymanagement.dto.BeneficiaryListDto;
 import com.cassini.beneficiarymanagement.dto.MessageDto;
 import com.cassini.beneficiarymanagement.exception.BeneficiaryAlreadyExistException;
 import com.cassini.beneficiarymanagement.exception.MaximumBeneficiaryException;
@@ -32,7 +33,7 @@ public class BeneficiaryController {
 	BeneficiaryService beneficiaryService;
 
 	@GetMapping("/{customerId}")
-	public ResponseEntity<List<Beneficiary>> getAllBeneficiary(@PathVariable("customerId") Integer customerId) {
+	public ResponseEntity<List<BeneficiaryListDto>> getAllBeneficiary(@PathVariable("customerId") Integer customerId) {
 		return new ResponseEntity<>(beneficiaryService.getAllBeneficiary(customerId), HttpStatus.OK);
 	}
 
