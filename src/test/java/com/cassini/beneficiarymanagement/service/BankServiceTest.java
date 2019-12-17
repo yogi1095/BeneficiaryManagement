@@ -35,5 +35,18 @@ public class BankServiceTest {
 		Bank actual = bankServiceImpl.getBankDetails("SBI09787");
 		assertNotNull(actual);
 	}
+	
+	
+	@Test(expected = BankNotFound.class)
+	public void findBankByIfscCodeNew() throws BankNotFound {
+		Bank bank = new Bank();
+		bank.setBankId(1);
+		bank.setBankName("IOB");
+		bank.setBranchName("Trichy");
+		bank.setIfscCode("SBI099757");
+		Mockito.when(bankRepository.findByIfscCode("SBI09787")).thenReturn(Optional.of(bank));
+		Bank actual = bankServiceImpl.getBankDetails("SBI09787");
+		assertNotNull(actual);
+	}
 
 }

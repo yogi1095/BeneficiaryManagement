@@ -41,16 +41,12 @@ public class BeneficiaryServiceImpl implements BeneficiaryService {
 		Customer customer = new Customer();
 		customer.setCustomerId(customerId);
 		List<Beneficiary> beneficiaries = beneficiaryRepository.findAllByCustomerOrderByBeneficiaryNameAsc(customer);
-		if (beneficiaries.isEmpty()) {
-			return new ArrayList<>();
-		} else {
-			return beneficiaries;
-		}
+		return beneficiaries;
 	}
 
 	@Override
 	public MessageDto addBeneficiary(AddBeneficiaryRequestDto addBeneficiaryRequestDto) throws AccountNotFoundException,
-	MaximumBeneficiaryException, UserNotFoundException, BeneficiaryAlreadyExistException {
+			MaximumBeneficiaryException, UserNotFoundException, BeneficiaryAlreadyExistException {
 		Beneficiary beneficiary = new Beneficiary();
 		Optional<Customer> customer = customerRepository.findById(addBeneficiaryRequestDto.getCustomerId());
 		Optional<Account> account = accountRepository.findById(addBeneficiaryRequestDto.getBeneficiaryAccountNumber());
@@ -90,8 +86,6 @@ public class BeneficiaryServiceImpl implements BeneficiaryService {
 		return messageDto;
 	}
 
-
-	
 	public MessageDto updateBeneficiary(UpdateBeneficiaryRequestDto updateBeneficiaryRequestDto)
 			throws BeneficiaryNotFoundException {
 		Optional<Beneficiary> beneficiary = beneficiaryRepository
@@ -108,7 +102,5 @@ public class BeneficiaryServiceImpl implements BeneficiaryService {
 			throw new BeneficiaryNotFoundException(Constant.BENEFICIARY_NOT_FOUND);
 		}
 	}
-
-	
 
 }
