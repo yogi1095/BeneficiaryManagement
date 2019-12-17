@@ -1,10 +1,12 @@
 package com.cassini.beneficiarymanagement.exception;
 
-public class BankNotFound extends Exception {
+public class AccountNotFoundException extends Exception{
 
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = 1L;
-
-	public BankNotFound(String message) {
+	public AccountNotFoundException(String message) {
 		super(message);
 	}
 
